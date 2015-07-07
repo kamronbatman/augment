@@ -9,8 +9,8 @@
     var slice = Array.prototype.slice;
 
     var augment = function (base, body) {
-        var uber = Factory.prototype = typeof base === "function" ? base.prototype : base;
-        var prototype = new Factory, properties = body.apply(prototype, slice.call(arguments, 2).concat(uber));
+        var super = Factory.prototype = typeof base === "function" ? base.prototype : base;
+        var prototype = new Factory, properties = body.apply(prototype, slice.call(arguments, 2).concat(super));
         if (typeof properties === "object") for (var key in properties) prototype[key] = properties[key];
         if (!prototype.hasOwnProperty("constructor")) return prototype;
         var constructor = prototype.constructor;
@@ -25,8 +25,8 @@
     };
 
     augment.extend = function (base, body) {
-        return augment(base, function (uber) {
-            this.uber = uber;
+        return augment(base, function (super) {
+            this.super = super;
             return body;
         });
     };
